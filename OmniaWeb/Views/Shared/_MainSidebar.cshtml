@@ -1,0 +1,86 @@
+﻿
+<!-- main sidebar -->
+<aside id="sidebar_main">
+
+    <div class="sidebar_main_header">
+        <div class="sidebar_logo">
+            @*<a href="#" class="sSidebar_hide"><img src="/assets/img/logo_main.png" alt="" height="15" width="71" /></a>
+            <a href="#" class="sSidebar_show"><img src="/assets/img/logo_main_small.png" alt="" height="32" width="32" /></a>*@
+        </div>
+        <div class="sidebar_actions">
+            <select id="lang_switcher" name="lang_switcher">
+                <option value="gb" selected>English</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="menu_section">
+        <ul>
+            
+            <li title="Dashboard">
+                <a href="@(Url.Action("Index", "Home"))">
+                    <span class="menu_icon"><i class="material-icons">&#xE871;</i></span>
+                    <span class="menu_title">Dashboard</span>
+                </a>
+            </li>
+            <li title="Projects">
+                <a href="#">
+                    <span class="menu_icon"><i class="material-icons">&#xE8C0;</i></span>
+                    <span class="menu_title">Project</span>
+                </a>
+                <ul>
+                    <li><a href="@(Url.Action("Index", "Project"))">Project List</a></li>
+                @if (User.IsInRole("admin") || User.IsInRole("DG"))
+                                {
+                    <li><a href="@(Url.Action("AuthoriseUser", "Account"))">Authorise User</a></li>
+
+                }      
+                                 
+                </ul>
+
+            </li>
+            
+            @if (User.IsInRole("admin") || User.IsInRole("DG"))
+                {
+                    <li title="User Profile">
+                        <a href="@(Url.Action("UsersAdmin", "Account"))">
+                            <span class="menu_icon"><i class="material-icons">&#xE87C;</i></span>
+                            <span class="menu_title">Users</span>
+                        </a>
+                    </li>
+                
+                 <li title="User Profile">
+                        <a href="@(Url.Action("Index", "Client"))">
+                            <span class="menu_icon"><i class="material-icons">&#xE85E;</i></span>
+                            <span class="menu_title">Clients</span>
+                        </a>
+                    </li>
+          
+                  <li title="Template Equipement">
+                    <a href="#">
+                        <span class="menu_icon"><i class="material-icons">&#xE8CB;</i></span>
+                        <span class="menu_title">Equipments Templates</span>
+                    </a>
+                    <ul>
+                        <li><a href="@(Url.Action("Manhole", "EquipmentTemplates"))">Manhole</a></li>
+                         <li><a href="@(Url.Action("Tube", "EquipmentTemplates"))">Tubes</a></li>
+                        <li><a href="@(Url.Action("Joint", "EquipmentTemplates"))">Joints</a></li>
+						<li><a href="@(Url.Action("Cable", "EquipmentTemplates"))">Cable</a></li>
+						<li><a href="@(Url.Action("PEHD", "EquipmentTemplates"))">PEHD</a></li>
+                    </ul>
+                
+                </li>
+                
+            }
+            <li>
+                <a href="@(Url.Action("Help", "Home"))">
+                    <span class="menu_icon"><i class="material-icons">&#xE1BD;</i></span>
+                    <span class="menu_title">Help</span>
+                </a>
+            </li>
+
+
+        </ul>
+    </div>
+</aside>
+<!-- main sidebar end -->

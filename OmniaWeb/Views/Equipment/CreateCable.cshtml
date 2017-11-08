@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "CreateJoint";
+    var id = ViewBag.id;
+    List<MyDomain.Entities.TemplateEquipement> templates = ViewBag.list;
+    List<MyDomain.Entities.PEHD> pehds = ViewBag.pehds;
+}
+
+@model OmniaWeb.Models.AddCableModel
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("CreateCable", "Equipment", new { RefID = id }, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+                <h4>Create a new Cable.</h4>
+                <hr />
+                @*if error occured*@
+
+                if (ViewBag.error != null)
+                {
+                    <div class="uk-grid">
+                        <div class="uk-width-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.reference, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.reference, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.classFibre, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.classFibre, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Cable length</label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.LongeurCable, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.nbrFibre, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.nbrFibre, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.StructureCable, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.StructureCable, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>PEHD</label>
+                    <div class="col-md-10">
+                        @{
+                List<SelectListItem> listPehd = new List<SelectListItem>();
+
+                foreach (MyDomain.Entities.PEHD pehd in pehds)
+                {
+                    listPehd.Add(new SelectListItem
+                    {
+                        Text = pehd.reference,
+                        Value = pehd.Id.ToString(),
+
+                    });
+
+                }
+
+
+                        }
+                        @Html.DropDownListFor(model => model.PEHDRefId, listPehd, new { style = "width: 250px;height: 40px;" })
+
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EquipementTemplateModel, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                     {
+                         Text = "No Template",
+                         Value = "0",
+                         Selected = true
+                     });
+                foreach (var t in templates)
+                {
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = t.Name,
+                        Value = t.Id.ToString(),
+
+                    });
+
+                }
+
+
+                        }
+                        @Html.DropDownListFor(model => model.EquipementTemplateModel, listItems, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Create</button>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+}

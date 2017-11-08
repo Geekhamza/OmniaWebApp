@@ -1,0 +1,86 @@
+﻿@model OmniaWeb.Models.EditUserViewModel
+@{
+    ViewBag.Title = "EditUser";
+}
+
+<h2>EditUser</h2>
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("EditUser", "Account", new { userId = ViewBag.id }, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form", @userId=ViewBag.id }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+                <h4>Edit account.</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "uk-width-1-1 uk-form-large", required = "required", @readonly = "readonly" })
+                    
+                </div>
+            </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "uk-width-1-1 uk-form-large", required = "required"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.NewPassword, new { @class = "uk-width-1-1 uk-form-large", required = "required" })
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Role, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            foreach (KeyValuePair<string, string> p in ViewBag.roles)
+                            {
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = p.Key,
+                                    Value = p.Value
+                                });
+                            }
+
+                        }
+                        @Html.DropDownListFor(model => model.Role, listItems, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                    <br />
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+
+                            <a href="#"><input type="submit" value="Update" class="md-btn md-btn" /></a>
+                        </div>
+                    </div>
+                            }
+        </div>
+    </div>
+</div>
+
+
+
+
+

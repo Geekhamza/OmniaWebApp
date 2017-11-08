@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    bool can = (User.IsInRole("DG") || User.IsInRole("admin"));
+}
+
+            @model OmniaWeb.Models.AddTaskModel
+
+
+            <div id="page_content">
+            
+                <div id="page_content_inner">
+            
+
+                    <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("Edit", "Task", new { id = ViewBag.id, RefID = ViewBag.RefID}, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+
+                <h4>Update a Task.</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @*if Succes occured*@
+
+            if (ViewBag.success != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-success"><p>@ViewBag.success</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @Html.ValidationSummary()
+
+
+                <div class="form-group">
+                    <label>Name </label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Nom, can ? (object)new { @class = "uk-width-1-1 uk-form-large", required = "required" }: new { @class = "uk-width-1-1 uk-form-large", required = "required", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(m => m.Description, can ? (object)new { @class = "uk-width-1-1 uk-form-large", required = "required" }: new { @class = "uk-width-1-1 uk-form-large", required = "required" ,@readonly = "readonly"})
+                    </div>
+                </div>
+                <br />
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <div class="parsley-row">
+                            <label>Start Date </label>
+                            @Html.TextBoxFor(m => m.dateDepart, can ? (object)new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" } : new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}",disabled="disabled"})
+                            @Html.HiddenFor(model => model.dateDepart) @* Will be posted back *@
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <div class="parsley-row">
+                            <label> End Date</label>
+                            @Html.TextBoxFor(m => m.dateFin, can ? (object)new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" } : new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}", disabled = "disabled" })
+
+                            @Html.HiddenFor(model => model.dateFin) @* Will be posted back *@<
+</div>
+                    </div>
+                </div>
+                    <br />
+                    <div class="form-group">
+                        <label>Estimated Duration  </label>
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.dureEstime, can ? (object)new { @class = "uk-width-1-1 uk-form-large" } : new { @class = "uk-width-1-1 uk-form-large" ,@readonly = "readonly"})
+                        </div>
+                    </div>
+                   
+                <div class="form-group">
+                    @Html.LabelFor(m => m.progress, new { @class = "col-md-2 control-label" }) %
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.progress, new { @class = "uk-width-1-1 uk-form-large" ,@type="number"})
+                    </div>
+                </div>
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Update</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+

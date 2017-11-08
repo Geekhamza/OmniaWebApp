@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "GetByTask";
+    long id = ViewBag.RefId;
+}
+
+@model List<MyDomain.Entities.Progress>
+
+<div class="uk-width-1-1">
+    <div id="page_content">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="uk-sticky-init uk-active" style="position: fixed; top: 40px; width: 100%;">
+            <div class="heading_actions">
+
+            </div>
+            <h1> Log List</h1>
+            <span class="uk-text-upper uk-text-small"><a href="@(Url.Action("GetByService", "Task", new { id = id }))">Task</a></span>
+        </div>
+        <br />
+        <br />
+        <br />
+
+
+        <div id="page_content_inner">
+
+
+            <div class="md-card uk-margin-medium-bottom">
+                <div class="md-card-content">
+                    <table class="uk-table uk-table-striped">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Log List</th>
+                            </tr>
+                            <tr>
+                                <th>Progress</th>
+                                <th>Date</th>
+
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Progress</th>
+                                <th>Date</th>
+
+                            </tr>
+                        </tfoot>
+
+                        <tbody>
+                            @foreach (var tmp in Model)
+                            {
+
+
+                                <tr>
+
+                                    <td>@tmp.progress</td>
+                                    <td>@tmp.date</td>
+
+
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ul class="uk-pagination uk-margin-medium-top uk-margin-medium-bottom">
+                <li class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>
+                <li class="uk-active"><span>1</span></li>
+
+                <li><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+

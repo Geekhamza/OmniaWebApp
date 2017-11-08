@@ -1,0 +1,254 @@
+﻿@{
+
+
+    MyDomain.Entities.Manhole manhole = new MyDomain.Entities.Manhole();
+    var projectID =ViewBag.id;
+    
+}
+
+@model OmniaWeb.MyModels.ProjecDetailstModel
+
+<div id="page_content">
+    <div id="page_content_inner">
+        
+        <div class="uk-height-1-1">
+            
+            <!-- statistics (small charts) -->
+            <div class="uk-grid uk-grid-width-large-1-4 uk-grid-width-medium-1-2 uk-grid-medium uk-sortable sortable-handler hierarchical_show" data-uk-sortable data-uk-grid-margin>
+                <div>
+                    <div class="md-card">
+                        <div class="md-card-content">
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">5,3,9,6,5,9,7</span></div>
+                            <span class="uk-text-muted uk-text-small"> Country </span>
+                            <h2 class="uk-margin-remove"><span class="countUpMe"> @Model.Country<noscript>65</noscript></span></h2>
+                        </div>
+                    </div>
+                </div>
+                 <div>
+                    <div class="md-card">
+                        <div class="md-card-content">
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">5,3,9,6,5,9,7</span></div>
+                            <span class="uk-text-muted uk-text-small"> Zone </span>
+                            <h2 class="uk-margin-remove"><span class="countUpMe"> @Model.Zone <noscript>12456</noscript></span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card">
+                        <div class="md-card-content">
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">5,3,9,6,5,9,7,3,5,2</span></div>
+                            <span class="uk-text-muted uk-text-small">Equipments </span>
+                            <h2 class="uk-margin-remove"><span class="countUpMe">@Model.nb_equipment<noscript>3</noscript></span></h2>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="md-card">
+                        <div class="md-card-content">
+                            <div class="uk-float-right uk-margin-top uk-margin-small-right"><span class="peity_visitors peity_data">9,6,5,9,7,3,5,2</span></div>
+                            <span class="uk-text-muted uk-text-small">Services</span>
+                            <h2 class="uk-margin-remove"><span class="countUpMe"> @Model.nb_services<noscript>64</noscript></span></h2>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+            <br />
+           
+            <div class="md-card">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <i class="md-icon material-icons md-card-fullscreen-activate"></i>
+                        <i class="md-icon material-icons" onclick="initMap()"></i>
+                        <div class="md-card-dropdown" data-uk-dropdown="{pos:'bottom-right'}">
+                            <i class="md-icon material-icons"></i>
+                            <div class="uk-dropdown uk-dropdown-small uk-dropdown-bottom" aria-hidden="true" tabindex="" style="min-width: 160px; top: 32px; left: -128px;">
+                                <ul class="uk-nav">
+                                    @if (User.IsInRole("admin") || User.IsInRole("DG") || User.IsInRole("ProjectManger"))
+                                    {      
+                                    <li class="uk-nav-header">Add Equipement</li>
+                                    <li><a href="@(Url.Action("Create", "Equipment", new { id = projectID, type = "0" }))">Manhole</a></li>
+                                    <li><a href="@(Url.Action("Create", "Equipment", new { id = projectID, type = "1" }))">PEHD</a></li>
+                                    <li><a href="@(Url.Action("Create", "Equipment", new { id = projectID, type = "2" }))">Joint</a></li>
+                                    <li><a href="@(Url.Action("Create", "Equipment", new { id = projectID, type = "3" }))">Cable</a></li>
+                                    <li><a href="@(Url.Action("Create", "Equipment", new { id = projectID, type = "4" }))">Tube</a></li>
+                                     }
+                                    <li class="uk-nav-header">More Details</li>
+                                    <li><a href="@(Url.Action("ProjectEquipements", "Equipment", new { id = projectID }))">See All Equipements </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="md-card-toolbar-heading-text">
+                       Project Details Map
+                    </h3>
+                </div>
+                <div class="md-card-content">
+                    <div class="mGraph-wrapper">
+
+                        <div class="md-card">
+                            <div id="map_users_controls"></div>
+
+                            <div id="map"></div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="md-card-fullscreen-content">
+                        <div class="uk-overflow-container">
+
+                        </div>
+
+                    </div>
+                </div>
+            
+
+
+            </div>
+
+          
+        </div>
+    </div>
+@section scripts 
+
+{
+    
+    <script type="text/javascript">
+        //map
+        function bindInfoWindow(marker, map, infowindow, html) {
+            marker.addListener('click', function () {
+                infowindow.setContent(html);
+                infowindow.open(map, this);
+            });
+        }
+
+        function initMap() { // initialiser map vide fi wossr il div li essmha map
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: { lat: 36.8935209, lng: 10.1864907 }
+            });
+            @foreach (var e in Model.manholesdetails)
+            {
+
+                //red https://image.ibb.co/mwexk5/manhole_1.png
+                // green https://image.ibb.co/mwexk5/manhole_1.png
+                // orange http://i.imgur.com/3SoTDDk.png
+                var icon = "https://image.ibb.co/mwexk5/manhole_1.png";
+                var manholeProgress = "#F4a641";
+                if (e.progress >0.0&& e.progress<100.0)
+                {
+                    manholeProgress = "#F45041";
+                    icon= "http://i.imgur.com/3SoTDDk.png";
+                }
+                if (e.progress == 100.0)
+                {
+                    manholeProgress = "#F4a641";
+                    icon = "http://i.imgur.com/KUuct53.png";
+                }
+
+
+
+
+         <text>
+            var lat = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(e.lat.ToString())';
+        var lng = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(e.lng.ToString())';
+
+        var marker = new google.maps.Marker({
+                position: { lat: parseFloat(lat) , lng: parseFloat(lng)  },
+                icon:'@icon',
+                map: map
+
+            });
+            var  content= '<div id="content"style="text-align:center;font-family: times, Times New Roman, times-roman, georgia, serif;color: #444;margin: 5px;padding: 0px 0px 6px 0px;line-height: 24px;">' +
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading" style="text-align:center;font-family: times, Times New Roman, times-roman, georgia, serif;color: #444;margin: 5px;padding: 0px 0px 6px 0px;font-size: 51px;line-height: 44px;letter-spacing: -2px;font-weight: bold;">' + '@e.reference' + '</h1>' +
+            '<div id="bodyContent">'+
+            '<p><b>Progress : </b>' + '@e.progress' + ' % <br>' + '<progress value="' + '@e.progress' + '" max="100" style=" background: '+'@manholeProgress'+';"></progress>' +
+            '<p>Visit Our Website: , <a href="https://omniacom.com">'+
+            'OmniaCom</a> '+
+            '</p>'+
+            '</div>'+
+            '</div>';
+            var infowindow = new google.maps.InfoWindow();
+            bindInfoWindow(marker, map, infowindow, content);
+
+
+
+        </text>
+
+            }
+            @foreach (var route in Model.PEHDsdetails)
+            {
+                var color = "#FF0000";//red
+               if(route.progress>=50.0) //orange
+               { color = "#FF9a00"; }
+               if (route.progress == 100.0)//vert
+               {
+                   color = "#008000";
+               }
+
+
+
+                    <text>
+                    var lat = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(route.latSrc.ToString())';
+                    var lng = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(route.lngSrc.ToString())';
+                    var latDis = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(route.latDist.ToString())';
+                    var lngDis = '@OmniaWeb.ExtraTools.DoubleC2toDoubleJs.changeDouble(route.lngDist.ToString())';
+
+                        //      alert(lngDis + " " + latDis);
+                        var LinkCoordinates = [
+                        { lat: parseFloat(lat), lng: parseFloat(lng) },
+                        { lat: parseFloat(latDis), lng: parseFloat(lngDis) }
+                        ];
+                        var polygon = new google.maps.Polyline({
+                        path: LinkCoordinates,
+                        geodesic: true,
+                        strokeColor: '@color',
+//                        strokeOpacity: 0.,
+                        strokeWeight: 6,
+                        map: map
+                    });
+
+
+
+                    </text>
+            }
+        google.maps.event.addDomListener(window, 'load', initialize);
+            }
+
+
+
+</script>
+
+
+<script src="/bower_components/d3/d3.min.js"></script>
+<!-- metrics graphics (charts) -->
+<script src="/bower_components/metrics-graphics/dist/metricsgraphics.min.js"></script>
+<!-- chartist (charts) -->
+<script src="/bower_components/chartist/dist/chartist.min.js"></script>
+<!-- peity (small charts) -->
+<script src="/bower_components/peity/jquery.peity.min.js"></script>
+<!-- easy-pie-chart (circular statistics) -->
+<script src="/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+<!-- handlebars.js -->
+<script src="/bower_components/handlebars/handlebars.min.js"></script>
+<script src="/assets/js/custom/handlebars_helpers.min.js"></script>
+<!-- fitvids -->
+<script src="/bower_components/fitvids/jquery.fitvids.js"></script>
+<!--  dashbord functions -->
+<script src="/assets/js/pages/dashboard.min.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxFWOKi3iR5tXcgFD5jpZ2_M8qpOt0fpM&callback=initMap">
+    </script>
+}
+    <style>
+        #map {
+        height: 400px;
+        width: 100%;
+        }
+       
+    </style>
+
+
+

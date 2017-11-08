@@ -1,0 +1,106 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model OmniaWeb.Models.StatModel
+    
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+<div id="page_content">
+    <div class="uk-row-first" style="margin:10px">
+        
+        <br/>
+   
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <div class="md-card-toolbar-actions">
+                    <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed"></i>
+                    <i class="md-icon material-icons"></i>
+                </div>
+                <h3 class="md-card-toolbar-heading-text">
+                    Services State
+                </h3>
+            </div>
+            <div class="md-card-content">
+                <div id="services_stat" style="height: 250px;"></div>
+            </div>
+        </div>
+        <div class="md-card">
+            <div class="md-card-toolbar">
+                <div class="md-card-toolbar-actions">
+                    <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed"></i>
+                    <i class="md-icon material-icons"></i>
+                </div>
+                <h3 class="md-card-toolbar-heading-text">
+                    Tasks State
+                </h3>
+            </div>
+            <div class="md-card-content">
+                <div id="task_stat" style="height: 250px;"></div>
+            </div>
+        </div>
+        <div class="md-card">
+            <div class="md-card-content">
+                <div class="md-card-toolbar">
+                    <div class="md-card-toolbar-actions">
+                        <i class="md-icon material-icons md-card-fullscreen-activate toolbar_fixed"></i>
+                        <i class="md-icon material-icons"></i>
+                    </div>
+                    <h3 class="md-card-toolbar-heading-text">
+                        Projects Affectation 
+                    </h3>
+                </div>
+                <div id="project_owner" style="height: 250px;"></div>
+            </div>
+        </div>
+        <br />
+        
+        
+      
+        
+            <script>
+                new Morris.Donut({
+                    element: 'services_stat',
+                    data: [
+                      { label: "open Services", value: @Model.OpnedService },
+                      { label: "In-Progress", value: @Model.InprogressService },
+                      { label: "Closed Services", value: @Model.finishedService }
+                    ]
+                });
+                new Morris.Donut({
+                    element: 'task_stat',
+                    data: [
+                      { label: "Open Tasks", value: @Model.OpnedTask },
+                      { label: "Finished Tasks", value: @Model.finishedTask },
+                    ]
+                });
+                var tmp=[];
+                
+                @foreach(var p in Model.ownersProjects)
+                    {
+                        <text>
+                            var obj = { y:'@p.Key', a: @p.Value};
+                            tmp.push(obj);
+                        </text>
+                    }
+                 
+                
+   
+                
+               var bar= new Morris.Bar({
+                    element: 'project_owner',
+                    xkey: 'y',
+                   // problemm with serialisation 
+                    data:tmp,
+                    ykeys: ['a'],
+                    labels: ['Affected projects']
+               });
+//               bar.data.push( { y: '2006', a: 100, b: 90 });
+
+            </script>
+      
+</div>
+    </div>

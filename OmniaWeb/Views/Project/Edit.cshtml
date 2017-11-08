@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    var client = new WebClient();
+    List<string> clientNames = new List<string>();
+    clientNames = ViewBag.names;
+}
+@model OmniaWeb.MyModels.EditProjectViewModel
+
+<h2>Create</h2>
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-grid" data-uk-grid-margin>
+            
+            <div class="uk-width-medium-3-5">
+                <div class="md-card">
+                    
+
+                        @using (Html.BeginForm("Edit", "Project", FormMethod.Post,  new { @class = "uk-panel uk-panel-box uk-form", role = "form" , id = Model.Id }))
+                        {
+                            <h4>Edit Project </h4>
+
+                            <div class="uk-grid uk-grid-medium form_section form_section_separator" id="d_form_section" data-uk-grid-match>
+                                <div class="uk-width-9-10">
+
+                                    @*if error occured*@
+                                    @{
+                            if (ViewBag.error != null)
+                            {
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-2">
+                                        <div class="parsley-row">
+                                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                                    }
+
+
+                                    @Html.ValidationSummary()
+                                    <div class="uk-grid">
+                                        <div class="uk-width-1-2">
+                                            <div class="parsley-row">
+                                                <label> Name</label>
+                                                @Html.TextBoxFor(m => m.Name, new { @class = "md-input", required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Country</label>
+                                            <div class="col-md-10">
+
+                                                @{
+                                                    List<SelectListItem> listItemsCountry = new List<SelectListItem>();
+                                                    foreach (string c in ViewBag.countries)
+                                                    {
+                                                        listItemsCountry.Add(new SelectListItem
+                                                        {
+                                                            Text = c,
+                                                            Value = c
+                                                        });
+                                                    }
+
+                                                }
+                                                @Html.DropDownListFor(model => model.Country, listItemsCountry, new { style = "width: 250px;height: 40px;" })
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="uk-grid">
+                                        <div class="uk-width-1-1">
+                                            <div class="parsley-row">
+                                                <label>Zone</label>
+                                                @Html.TextBoxFor(m => m.Zone, new { @class = "md-input", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uk-grid">
+                                        <div class="uk-width-1-1">
+                                            <div class="parsley-row">
+                                                <label>Start Date </label>
+                                                @Html.TextBoxFor(m => m.datDebut, new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="uk-grid">
+                                        <div class="uk-width-1-1">
+                                            <div class="parsley-row">
+                                                <label>Estimated End Date</label>
+                                                @Html.TextBoxFor(m => m.datFinEstime, new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Client</label>
+                                        <div class="col-md-10">
+
+                                            @{
+                                                List<SelectListItem> listItemsClient = new List<SelectListItem>();
+                                                foreach (MyDomain.Entities.Client c in ViewBag.clients)
+                                                {
+                                                    listItemsClient.Add(new SelectListItem
+                                                    {
+                                                        Text = c.name,
+                                                        Value = c.name
+                                                    });
+                                                }
+
+                                            }
+                                            @Html.DropDownListFor(model => model.client, listItemsClient, new { style = "width: 250px;height: 40px;" })
+                                        </div>
+                                    </div>
+
+                                    <br />
+                                    <div class="form-group">
+                                        <label>Owner </label>
+                                        <div class="col-md-10">
+
+                                            @{
+                                                List<SelectListItem> listItems = new List<SelectListItem>();
+                                                foreach (OmniaWeb.Models.ApplicationUser user in ViewBag.Users)
+                                                {
+                                                    listItems.Add(new SelectListItem
+                                                         {
+                                                             Text = user.UserName,
+                                                             Value = user.Id
+                                                         });
+                                                }
+
+                                            }
+                                            @Html.DropDownListFor(model => model.OwnerID, listItems, new { style = "width: 250px;height: 40px;" })
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="uk-grid">
+
+                                    </div>
+
+                                </div>
+                                <div class="uk-width-1-10 uk-text-center">
+                                    <div class="uk-vertical-align uk-height-1-1">
+                                        <div class="uk-vertical-align-middle">
+                                            <a href="#" class="btnSectionClone" data-section-clone="#d_form_section"><i class="material-icons md-36">&#xE146;</i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uk-grid">
+                                <div class="uk-width-1-1">
+                                    
+                                      @* if an error ocuured in getting project from database disable submit button*@
+                                        @if (ViewBag.disble != 1) { 
+                                     
+                                    <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Update</button>
+                                        }
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    
+</div>
+

@@ -1,0 +1,120 @@
+﻿@{
+    ViewBag.Title = "ProjectEquipements";
+    
+    long id = ViewBag.id;
+}
+@model List<MyDomain.Entities.Equipement>  
+
+
+<div class="uk-width-1-1">
+    <div id="page_content">
+        <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="uk-sticky-init uk-active" style="position: fixed; top: 40px; width: 100%;">
+            <div class="heading_actions">
+
+            </div>
+            <h1> Equipement List</h1>
+            <span class="uk-text-upper uk-text-small"><a href="@(Url.Action("Details", "Project", new { id = id }))">Project</a></span>
+        </div>
+        <br />
+        <br />
+        <br />
+
+        <div id="page_content_inner">
+
+            
+            <div class="md-card uk-margin-medium-bottom">
+                <div class="md-card-content">
+                    <table id="dt_default" class="uk-table" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th colspan="5">Equipement List</th>
+                            </tr>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Type</th>
+                                <th>Nb Service</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Type</th>
+                                <th>Nb Service</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+
+                            </tr>
+                        </tfoot>
+
+                        <tbody>
+                            @foreach (var tmp in Model)
+                            {
+                                string type = "Manhole";
+                                if (tmp is MyDomain.Entities.PEHD)
+                                {
+                                    type = "PEHD";
+                                }
+                                if (tmp is MyDomain.Entities.Cable)
+                                {
+                                    type = "Cable";
+                                }
+                                if (tmp is MyDomain.Entities.Tube)
+                                {
+                                    type = "Tube";
+                                }
+                                if (tmp is MyDomain.Entities.Joint)
+                                {
+                                    type = "Joint";
+                                }
+                                <tr>
+                                    <td><a href="@(Url.Action("GetByEquipement", "Service", new { id = tmp.Id}))">@tmp.reference</a></td>
+                                    <td>@type</td>
+                                    <td>@tmp.services.Count()</td>
+                                    @if (User.IsInRole("admin") || User.IsInRole("DG")) { 
+                                    <td><a href="@(Url.Action("Edit", "Equipment", new { id = tmp.Id,type=type,ProjectID=id }))"><i class="uk-icon-cog"></i> </a></td>
+
+                                    <td><a href="@(Url.Action("Delete", "Equipment", new { id = tmp.Id,projectID=id }))"><i class="uk-icon-remove"></i> </a></td>
+                                    }
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <ul class="uk-pagination uk-margin-medium-top uk-margin-medium-bottom">
+                <li class="uk-disabled"><span><i class="uk-icon-angle-double-left"></i></span></li>
+                <li class="uk-active"><span>1</span></li>
+
+                <li><a href="#"><i class="uk-icon-angle-double-right"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+@if (User.IsInRole("admin") || User.IsInRole("DG"))
+{
+<div class="md-fab-wrapper md-fab-in-card">
+    <div class="md-fab md-fab-accent md-fab-sheet">
+        <i class="material-icons">&#xE145;</i>
+        <div class="md-fab-sheet-actions">
+            <a class="md-color-white" href="@(Url.Action("Create", "Equipment", new { id = id, type = "0" }))"><i class="material-icons md-color-white"></i> Manhole</a>
+            <a class="md-color-white" href="@(Url.Action("Create", "Equipment", new { id = id, type = "1" }))"><i class="material-icons md-color-white">&#xE922;</i> PEHD</a>
+            <a class="md-color-white" href="@(Url.Action("Create", "Equipment", new { id = id, type = "2" }))"><i class="material-icons md-color-white">&#xE8C0;</i> Joint</a>
+            <a class="md-color-white" href="@(Url.Action("Create", "Equipment", new { id = id, type = "3" }))"><i class="material-icons md-color-white">&#xE922;</i> Cable</a>
+            <a class="md-color-white" href="@(Url.Action("Create", "Equipment", new { id = id, type = "4" }))"><i class="material-icons md-color-white">&#xE922;</i> Tube</a>
+          
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+
+

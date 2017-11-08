@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+    long refId = ViewBag.id;
+}
+@model List<OmniaWeb.Models.ServiceTemplateModel>
+
+
+<div class="uk-width-1-1">
+        <div id="page_content">
+            <div id="page_heading" data-uk-sticky="{ top: 48, media: 960 }" class="uk-sticky-init uk-active" style="position: fixed; top: 40px; width: 100%;">
+                <div class="heading_actions">
+
+                </div>
+                <h1> Services Catalog</h1>
+                <span class="uk-text-upper uk-text-small"><a href="#">Project</a></span>
+            </div>
+            <br />
+            <br />
+            <br />
+
+            <div id="page_content_inner">
+                
+
+
+                <div class="md-card uk-margin-medium-bottom">
+                    <div class="md-card-content">
+                        <div class="uk-overflow-container">
+                            <table class="uk-table uk-table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Price HT</th>
+                                        <th>Nb Tasks</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var s in Model) {
+                                        
+                                    <tr>
+                                        <td><a href="@(Url.Action("Details", "ServiceTemplates", new { id = s.Id, }))">@s.Name</a></td>
+                                        <td>@s.price</td>
+                                        <td>@s.priceHT</td>
+                                        <td>@s.nb_Tasks</td>
+                                        @if (User.IsInRole("admin") || User.IsInRole("DG")){
+                                        <td><a href="@(Url.Action("Edit", "ServiceTemplates", new { id = s.Id, }))"><i class="uk-icon-cog"></i> </a></td>
+
+                                        <td><a href="@(Url.Action("Delete", "ServiceTemplates", new { id = s.Id, }))"><i class="uk-icon-remove"></i> </a></td>
+                                        }
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="md-fab-wrapper">
+                <a class="md-fab md-fab-accent" href="@(Url.Action("Create", "ServiceTemplates", new { TemplateRefId =refId}))">
+                    <i class="material-icons">&#xE145;</i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+

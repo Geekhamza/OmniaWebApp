@@ -1,0 +1,67 @@
+﻿d
+@{
+    ViewBag.Title = "GetByService";
+}
+@model OmniaWeb.Models.AddRapportPhoto
+
+
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("Create", "RapportPhoto", new { RefID = ViewBag.RefID }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+
+                <h4>Upload a Photo.</h4>
+                <hr />
+                @*if error occured*@
+
+                if (ViewBag.error != null)
+                {
+                    <div class="uk-grid">
+                        <div class="uk-width-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @*if Succes occured*@
+
+                if (ViewBag.success != null)
+                {
+                    <div class="uk-grid">
+                        <div class="uk-width-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-alert uk-alert-success"><p>@ViewBag.success</p></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="form-group"> 
+                    <div>
+                        <label for="image1" class="btn" style="border: 1px solid #808080;padding: 1px;float: left;">Select Image  To Upload </label>
+                        <input  style="visibility:hidden;" type="file"  name="image1" id="image1">
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Upload</button>
+                    </div>
+                </div>
+
+            }
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "CreateJoint";
+    var id = ViewBag.id;
+    
+    List<MyDomain.Entities.Manhole> manholes = ViewBag.manholes;
+}
+
+@model OmniaWeb.Models.AddJointModel
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("EditJoint", "Equipment", new { id = id, RefID = ViewBag.RefID }, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+                <h4>Update Joint.</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.reference, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.reference, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.typeJoint, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.typeJoint, new { @class = "md-input", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Manhole, new { @class = "col-md-2 control-label", @required = "required" })
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listmanholes = new List<SelectListItem>();
+
+                            foreach (MyDomain.Entities.Manhole manhole in manholes)
+                            {
+                                listmanholes.Add(new SelectListItem
+                                {
+                                    Text = manhole.reference,
+                                    Value = manhole.Id.ToString(),
+
+                                });
+
+                            }
+
+
+                        }
+                        @Html.DropDownListFor(model => model.Manhole, listmanholes, new { style = "width: 250px;height: 40px;" })
+
+                    </div>
+                </div>
+
+
+
+                
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Update</button>
+
+                    </div>
+                </div>
+                            }
+        </div>
+
+    </div>
+</div>

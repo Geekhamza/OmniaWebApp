@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "CreateManhole";
+    var id = ViewBag.id;
+    List<MyDomain.Entities.TemplateEquipement> templates = ViewBag.list;
+}
+
+@model OmniaWeb.Models.AddManholeModel
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("CreateManhole", "Equipment",new{RefID=id}, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+                <h4>Create a new Manhole.</h4>
+                <hr />
+                @*if error occured*@
+
+                if (ViewBag.error != null)
+                {
+                    <div class="uk-grid">
+                        <div class="uk-width-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.reference, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.reference, new { @class = "uk-width-1-1 uk-form-large" , @required = "required"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.latManhole, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.latManhole, new { @class = "uk-width-1-1 uk-form-large",required="required"})
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.lngManhole, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.lngManhole, new { @class = "uk-width-1-1 uk-form-large",  required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.TypeCh, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.TypeCh, new { @class = "uk-width-1-1 uk-form-large", @required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.EquipementTemplateModel, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                     {
+                         Text = "No Template",
+                         Value = "0",
+                         Selected = true
+                     });
+                foreach (var t in templates)
+                {
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = t.Name,
+                        Value = t.Id.ToString(),
+
+                    });
+
+                }
+                
+
+                        }
+                        @Html.DropDownListFor(model => model.EquipementTemplateModel, listItems, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Create</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

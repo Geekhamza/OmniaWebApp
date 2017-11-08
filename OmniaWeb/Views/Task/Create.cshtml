@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+@model OmniaWeb.Models.AddTaskModel
+
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("Create", "Task", new { RefID = ViewBag.RefID }, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+
+                <h4>Create a Task.</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @*if Succes occured*@
+
+            if (ViewBag.success != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-success"><p>@ViewBag.success</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            
+                <div class="form-group">
+                    <label>Name </label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Nom, new { @class = "uk-width-1-1 uk-form-large", required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+
+                        @Html.TextBoxFor(m => m.Description, new { @class = "uk-width-1-1 uk-form-large", required = "required" })
+                    </div>
+                </div>
+                <br />
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+                        <div class="parsley-row">
+                            <label>Start Date </label>
+                            @Html.TextBoxFor(m => m.dateDepart, new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" })
+
+                        </div>
+                    </div>
+                </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-1-1">
+                            <div class="parsley-row">
+                                <label> End Date</label>
+                                @Html.TextBoxFor(m => m.dateFin, new { @class = "md-input", required = "required", @data_uk_datepicker = "{format:'MM/DD/YYYY'}" })
+                            </div>
+                        </div>
+                    </div>
+                <br />
+                <div class="form-group">
+                    <label>Estimated Duration  </label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.dureEstime, new { @class = "uk-width-1-1 uk-form-large" })
+                    </div>
+                </div>
+               
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Create</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

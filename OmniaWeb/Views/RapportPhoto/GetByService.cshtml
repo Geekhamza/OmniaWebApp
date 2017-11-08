@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    byte[] bytes;
+    int cmp = 0;
+}
+@model List<MyDomain.Entities.RapportPhoto>
+
+<style>
+    .img-wrap {
+    position: relative;
+    
+}
+.img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+    
+}
+</style>
+<div id="page_content">
+    <div id="page_content_inner">
+
+                    @foreach (var c in Model)
+                    {
+
+
+
+                        bytes = Convert.FromBase64String(c.photo);
+                        <div class="img-wrap">
+                            <a href ="@(Url.Action("Delete", "RapportPhoto", new { id = c.id }))" onclick="Javascript:Submit(@c.id)"><span class="close">&times;</span></a>
+                            <a class="uk-thumbnail" href="" style="display:block;margin-bottom:20px">
+                                <img src="data:image;base64,@System.Convert.ToBase64String(bytes)" alt="">
+                                <div class="uk-thumbnail-caption">Service Image</div>
+
+                            </a>
+                            </div>
+
+
+
+
+
+
+
+                            }
+
+
+
+
+                            @{
+                                if (User.IsInRole("admin") || User.IsInRole("DG"))
+                                {
+                                    <div class="md-fab-wrapper">
+                                        <a class="md-fab md-fab-accent" href="@(Url.Action("Create", "RapportPhoto", new { id = ViewBag.RefID }))">
+                                            <i class="material-icons">&#xE145;</i>
+                                        </a>
+                                    </div>
+                                }
+
+
+                            }
+
+
+                        </div>
+</div>
+<script type="text/javascript">
+    function Submit(id) {
+        if (confirm("Are you sure you want to Delete ?")) {
+            return true;
+
+        } else {
+            return false;
+
+        }
+        return true;
+    }
+</script>

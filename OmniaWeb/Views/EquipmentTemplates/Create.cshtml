@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+@model OmniaWeb.Models.AddEquipementTemplateModels
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("Create", "EquipmentTemplates", FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Create a new Template.</h4>
+                <hr />
+                @*if error occured*@
+
+                if (ViewBag.error != null)
+                {
+                    <div class="uk-grid">
+                        <div class="uk-width-1-2">
+                            <div class="parsley-row">
+                                <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "uk-width-1-1 uk-form-large", required = "required" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Type, new { @class = "col-md-2 control-label"})
+                    <div class="col-md-10">
+
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            listItems.Add(new SelectListItem
+                                 {
+                                     Text = "Manhole",
+                                     Value = "0",
+                                     Selected = true
+                                 });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Tube",
+                                Value = "1",
+                                
+                            });
+                            listItems.Add(new SelectListItem
+                                 {
+                                     Text = "Cable",
+                                     Value = "2"
+
+                                 });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Joint",
+                                Value = "3"
+
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "PEHD",
+                                Value = "4"
+
+                            });
+
+                        }
+                        @Html.DropDownListFor(model => model.Type, listItems, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" class="uk-button uk-width-1-1  " value=" Create" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+}
+
+
+
+

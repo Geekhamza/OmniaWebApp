@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "AuthoriseUser";
+}
+@model OmniaWeb.Models.AuthoriseUserModel
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("AuthoriseUser", "Account", FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+
+                <h4>Authorise User</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @*if Succes occured*@
+
+            if (ViewBag.success != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-success"><p>@ViewBag.success</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @Html.ValidationSummary()
+
+                <div class="form-group">
+                    <label>Project</label>
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            foreach (MyDomain.Entities.Project p in ViewBag.projects)
+                            {
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = p.Name,
+                                    Value = p.Id.ToString()
+                                });
+                            }
+
+                        }
+                        @Html.DropDownListFor(model => model.ProjectId, listItems, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label>User</label>
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listItems1 = new List<SelectListItem>();
+                            foreach (OmniaWeb.Models.ApplicationUser u in ViewBag.users)
+                            {
+                                listItems1.Add(new SelectListItem
+                                {
+                                    Text = u.UserName,
+                                    Value = u.Id
+                                });
+                            }
+
+                        }
+                        @Html.DropDownListFor(model => model.UserId, listItems1, new { style = "width: 250px;height: 40px;" })
+                    </div>
+                </div>
+                <br />
+                <div class="uk-grid">
+                    <div class="uk-width-1-1">
+
+                        <a href="#"><input type="submit" value="Authorise " class="md-btn md-btn" /></a>
+                    </div>
+                </div>
+                            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+}
+
+
+
+
+
+
+
+

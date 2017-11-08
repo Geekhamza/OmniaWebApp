@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+@model OmniaWeb.Models.ClientDetailsModel
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+
+        <div class="uk-grid" data-uk-grid-margin>
+            <div class="uk-width-medium-3-5">
+                <div class="md-card">
+
+                    @using (Html.BeginForm("Edit", "Client", FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+                    {
+                        <h4>Update Client </h4>
+
+                        <div class="uk-grid uk-grid-medium form_section form_section_separator" id="d_form_section" data-uk-grid-match>
+                            <div class="uk-width-9-10">
+
+                                @*if error occured*@
+                                @{
+                        if (ViewBag.error != null)
+                        {
+                            <div class="uk-grid">
+                                <div class="uk-width-1-2">
+                                    <div class="parsley-row">
+                                        <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                                }
+
+
+
+
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-1">
+                                        <div class="parsley-row">
+                                            <label>Name</label>
+                                            @Html.TextBoxFor(m => m.name, new { @class = "md-input", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-1">
+                                        <div class="parsley-row">
+                                            <label>Contact PM</label>
+                                            @Html.TextBoxFor(m => m.ContactPM, new { @class = "md-input", required = "required" })
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-1">
+                                        <div class="parsley-row">
+                                            <label>Contact Financier</label>
+                                            @Html.TextBoxFor(m => m.ContactFinancier, new { @class = "md-input", required = "required"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+
+                                <div class="uk-grid">
+
+                                </div>
+
+                            </div>
+                            <div class="uk-width-1-10 uk-text-center">
+                                <div class="uk-vertical-align uk-height-1-1">
+                                    <div class="uk-vertical-align-middle">
+                                        <a href="#" class="btnSectionClone" data-section-clone="#d_form_section"><i class="material-icons md-36">&#xE146;</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="uk-grid">
+                            <div class="uk-width-1-1">
+
+                                <a href="#"><input type="submit" value="Update " class="md-btn md-btn" /></a>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

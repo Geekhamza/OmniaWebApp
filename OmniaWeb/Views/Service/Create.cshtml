@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    long RefID = ViewBag.RefID;
+}
+@model OmniaWeb.Models.AddServiceModel
+
+<div id="page_content">
+    <div id="page_content_inner">
+
+        <div class="uk-height-1-1">
+
+            @using (Html.BeginForm("Create", "Service", new { RefID = RefID }, FormMethod.Post, new { @class = "uk-panel uk-panel-box uk-form", role = "form" }))
+            {
+
+                <h4>Create a new Service.</h4>
+                <hr />
+                @*if error occured*@
+
+            if (ViewBag.error != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-danger"><p>@ViewBag.error</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @*if Succes occured*@
+
+            if (ViewBag.success != null)
+            {
+                <div class="uk-grid">
+                    <div class="uk-width-1-2">
+                        <div class="parsley-row">
+                            <div class="uk-alert uk-alert-success"><p>@ViewBag.success</p></div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @Html.ValidationSummary()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "md-input", required = "required" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.price, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.price, new { @class = "md-input", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.priceHT, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.priceHT, new { @class = "md-input", required = "required" })
+                    </div>
+                </div>
+
+
+
+
+                <br />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Create</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
